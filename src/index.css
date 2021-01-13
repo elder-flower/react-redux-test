@@ -1,13 +1,148 @@
+@charset "UTF-8";
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font: 15px 'M PLUS 1p', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #000;
+    color: #eee;
+    text-align: left;
+    touch-action: manipulation;
+    word-break: break-all;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000;
+    color: #eee;
+  }
+}
+a{
+	display: block;
+	padding: 10px;
+	overflow: hidden;
+	color: #fcc;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+a:link{
+	text-decoration: none;
+}
+
+a:visited{
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
+a:active{
+	text-decoration: underline;
+}
+#root,
+#add{
+    width: 100%;
+}
+article{
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.check_sum{
+    padding: 5px;
+}
+.tit{
+    font-size: 2.2rem;
+    margin: 0 0 20px 0;
+}
+.tit2{
+    font-size: 1.6rem;
+    margin: 0;
+}
+.stit{
+    display: inline-block;
+}
+.sprice{
+    
+}
+.sum .tit2{
+    color: #ffb;
+}
+.price_list li{
+    font-size: 1.2rem;
+}
+.input_price{
+    display: block;;
+}
+#totop{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: #000;
+    opacity: 0.4;
+}
+#totop a{
+    display: block;
+    text-align: right;
+}
+#test{
+    position: absolute;
+    bottom: 200px;
+    left: 200px;
+}
+.box{
+    background: #222;
+    margin: 0 0 10px 0;
+    padding: 5px;
+}
+.box:nth-child(2n){
+    background: #111;
+}
+.box .input001,
+.box .input002,
+.box .input003{
+    background: #333;
+    border: #555;
+    color:#ddd;
+    margin: 0 0 0 0;
+    padding: 0.3em 0.5em 0.5em 0.5em;
+}
+.box .input001{
+    width: calc( 100% - 1.5em);
+    margin: 10px 0 10px 0;
+}
+.box .btn001,
+.box .btn002,
+.box .btn003,
+.box .cl001,
+.box .cl002,
+.box .cl003{
+    background: #433;
+    color:#ddd;
+    margin: 0 0 0 0.5em;
+    padding: 10px;
+}
+.box .sum001,
+.box .sum002,
+.box .sum003{
+    background: #444;
+    border: #555;
+    color:#ddd;
+    margin: 0 0 0 0.5em;
+    padding: 0.3em 0.5em 0.5em 0.5em;
+}
+#add div{
+    margin: 2px 0 2px 0;
+}
+.check_sum{
+    text-align: right;
+}
+.price_list li{
+    list-style: none;
+}
+.icon{
+    font-size: 2rem;
+}
+.tax{
+    padding: 0 0 0 10px ;
 }
