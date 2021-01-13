@@ -10,11 +10,11 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
             <Switch>
-              <>
+              <div>
                 <Navbar /><hr/>
-                <Route exact path="/" component={Home} />
-                <Route path="/About" component={About} />
-              </>
+                <Route exact path='/' render={ () => <Home name={'Korg Opsix'}/> }/>
+                <Route path='/About' render={ () => <About name={'Korg Wavestate'}/> }/>
+              </div>
             </Switch>
         </BrowserRouter>
       </div>
