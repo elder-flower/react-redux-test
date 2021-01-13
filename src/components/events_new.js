@@ -23,8 +23,8 @@ class EventsNew extends Component {
   }
 
   async onSubmit(values) {
-    await this.props.postEvent(values)
-    this.props.history.push('/')
+    await this.props.postEvent(values);
+    this.props.history.push('/');
   }
 
   render() {

@@ -13,12 +13,20 @@ class EventsShow extends Component {
   }
 
   componentDidMount() {
+    console.log( 'this.props.match' );
+    //console.log( this.props );
+    //console.log( this.props.match );
+    //console.log( this.props.history );
     const { id } = this.props.match.params;
+      
+    /* Promiseが返ってくる。
+    console.log( this.props.getEvent(id) );
+    */
     if (id) this.props.getEvent(id);
   }
 
   renderField(field) {
-    const { input, label, type, meta: { touched, error } } = field
+    const { input, label, type, meta: { touched, error } } = field;
 
     return (
       <div>
@@ -29,14 +37,14 @@ class EventsShow extends Component {
   }
 
   async onDeleteClick() {
-    const { id } = this.props.match.params
-    await this.props.deleteEvent(id)
-    this.props.history.push('/')
+    const { id } = this.props.match.params;
+    await this.props.deleteEvent(id);
+    this.props.history.push('/');
   }
 
   async onSubmit(values) {
-    await this.props.putEvent(values)
-    this.props.history.push('/')
+    await this.props.putEvent(values);
+    this.props.history.push('/');
   }
 
   render() {
