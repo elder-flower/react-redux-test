@@ -13,6 +13,15 @@ export default( events = {}, action ) => {
         case READ_EVENT:
         case UPDATE_EVENT:
           const data = action.response.data;
+          /*
+          console.log('CREATE_EVENT');
+          console.log( events );
+          console.log( data );
+          
+          eventsの中身は
+          { 1 : { id:1, title: 'title', body:'body' } }
+          
+          */
           return { ...events, [data.id]: data };
         case READ_EVENTS:
             /*

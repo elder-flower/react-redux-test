@@ -13,7 +13,7 @@ class EventsShow extends Component {
   }
 
   componentDidMount() {
-    console.log( 'this.props.match' );
+    //console.log( 'this.props.match' );
     //console.log( this.props );
     //console.log( this.props.match );
     //console.log( this.props.history );
@@ -21,6 +21,8 @@ class EventsShow extends Component {
       
     /* Promiseが返ってくる。
     console.log( this.props.getEvent(id) );
+    
+    「actions/index.js」に書かれたサンク関数。
     */
     if (id) this.props.getEvent(id);
   }
