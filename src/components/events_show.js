@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
 
-import { getEvent, deleteEvent, putEvent } from '../actions'
+import { getEvent, deleteEvent, putEvent } from '../actions';
 
 class EventsShow extends Component {
   constructor(props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onDeleteClick = this.onDeleteClick.bind(this)
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params
-    if (id) this.props.getEvent(id)
+    const { id } = this.props.match.params;
+    if (id) this.props.getEvent(id);
   }
 
   renderField(field) {

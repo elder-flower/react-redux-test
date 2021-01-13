@@ -21,6 +21,9 @@ export default( events = {}, action ) => {
             console.log(action);
             console.log(aaa);
             */
+            /*
+                response.data はObject IDを基準にソートする為に「_」を使っている。
+            */
             return _.mapKeys(action.response.data, 'id');
         case DELETE_EVENT:
           delete events[action.id];

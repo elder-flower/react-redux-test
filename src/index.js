@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './index.css';
-import reducer from './reducers'
+import reducer from './reducers';
 import EventsIndex from './components/events_index';
 import EventsNew from './components/events_new';
 import EventsShow from './components/events_show';
