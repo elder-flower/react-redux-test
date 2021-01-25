@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SyncValidationForm from './SyncValidationForm';
+import FieldLevelValidationForm from './FieldLevelValidationForm';
 import './index.css';
 
 class App extends Component{
@@ -25,7 +25,7 @@ class App extends Component{
         return (
             <>
                 <h2>Form</h2>
-                <SyncValidationForm onSubmit={this.showResults} />
+                <FieldLevelValidationForm onSubmit={this.showResults} />
             </>
         );
     }
