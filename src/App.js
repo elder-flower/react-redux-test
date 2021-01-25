@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SimpleForm from './SimpleForm';
+import SyncValidationForm from './SyncValidationForm';
 import './index.css';
 
 class App extends Component{
@@ -9,10 +9,13 @@ class App extends Component{
     }
     async showResults(values){
         return new Promise(resolve => {
+            
             setTimeout(() => {
-              // simulate server latency
-              window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
-              resolve()
+
+              window.alert(`You submitted:\n\n${JSON.stringify(values, null, 5)}`)
+              resolve();
+
+            console.log( values );
             }, 500);
         });
     }
@@ -22,7 +25,7 @@ class App extends Component{
         return (
             <>
                 <h2>Form</h2>
-                <SimpleForm onSubmit={this.showResults} />
+                <SyncValidationForm onSubmit={this.showResults} />
             </>
         );
     }
