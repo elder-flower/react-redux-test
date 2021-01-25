@@ -4,8 +4,8 @@ import './index.css';
 
 class App extends Component{
     constructor(props) {
-        super(props)
-        this.showResults = this.showResults.bind(this)
+        super(props);
+        this.showResults = this.showResults.bind(this);
     }
     async showResults(values){
         return new Promise(resolve => {

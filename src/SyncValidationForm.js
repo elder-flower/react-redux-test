@@ -3,6 +3,10 @@ import { Field, reduxForm } from 'redux-form';
 
 // *** 検証機能
 const validate = values => {
+    /*
+    console.log('validate values');
+    console.log(values);
+    */
     const errors = {}
     if (!values.username) {
         errors.username = 'Required'
@@ -21,10 +25,15 @@ const validate = values => {
     } else if (Number(values.age) < 18) {
         errors.age = 'Sorry, you must be at least 18 years old'
     }
+    
     return errors
 }
 // *** 警告機能
 const warn = values => {
+    /*
+    console.log('warn values');
+    console.log(values);
+    */
     const warnings = {}
     if (values.age < 19) {
     warnings.age = 'Hmm, you seem a bit young...'
@@ -51,26 +60,26 @@ const renderField = ({
 
 const SyncValidationForm = props => {
     const { handleSubmit, pristine, reset, submitting } = props;
-return (
-    <form onSubmit={handleSubmit}>
-            <Field
-            name="username"
-            type="text"
-            component={renderField}
-            label="Username"
-            />
-            <Field name="email" type="email" component={renderField} label="Email" />
-            <Field name="age" type="number" component={renderField} label="Age" />
-        <div>
-            <button type="submit" disabled={submitting}>
-              Submit
-            </button>
-            <button type="button" disabled={pristine || submitting} onClick={reset}>
-              Clear Values
-            </button>
-        </div>
-    </form>
-)
+    return (
+        <form onSubmit={handleSubmit}>
+                <Field
+                name="username"
+                type="text"
+                component={renderField}
+                label="Username"
+                />
+                <Field name="email" type="email" component={renderField} label="Email" />
+                <Field name="age" type="number" component={renderField} label="Age" />
+            <div>
+                <button type="submit" disabled={submitting}>
+                  Submit
+                </button>
+                <button type="button" disabled={pristine || submitting} onClick={reset}>
+                  Clear Values
+                </button>
+            </div>
+        </form>
+    )
 }
 
 export default reduxForm({
