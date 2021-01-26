@@ -10,14 +10,17 @@ export default function App() {
   console.log("render App");
 
   const [timeLeft, setTimeLeft] = useState(100);
-  const timerRef = useRef(null);
+  /*
+    setIntervalの「intervalID」を保持する。
+  */
+  const IntervalID = useRef(null);
   /*
     「useRef()」生成時の第1引数は useRef(initialValue);
   */
   const timeLeftRef = useRef(timeLeft);
 
 　/*
-    毎回副作用が更新されるのを第二引数に対象プロパティを設定する事によってそのプロパティが変更された時のみ更新する。様に変更する。
+    毎回副作用が更新されるのを第2引数に対象プロパティを設定する事によってそのプロパティが変更された時のみ更新する。様に変更する。
  */
   useEffect(() => {
     timeLeftRef.current = timeLeft;
@@ -25,18 +28,18 @@ export default function App() {
 
   const tick = () => {
     if (timeLeftRef.current === 0) {
-      clearInterval(timerRef.current);
+      clearInterval(IntervalID.current);
       return;
     }
     setTimeLeft(prevTime => prevTime - 1);
   };
 
   const start = () => {
-    timerRef.current = setInterval(tick, 10);
+    IntervalID.current = setInterval(tick, 10);
   };
 
   const reset = () => {
-    clearInterval(timerRef.current);
+    clearInterval(IntervalID.current);
     setTimeLeft(100);
   };
 
