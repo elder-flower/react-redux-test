@@ -1,32 +1,23 @@
-import React, { Component } from 'react';
-import InitializeFromStateForm from './InitializeFromStateForm';
+import React, { useState } from "react";
 import './index.css';
 
-class App extends Component{
-    constructor(props) {
-        super(props);
-        this.showResults = this.showResults.bind(this);
-    }
-    async showResults(values){
-        return new Promise(resolve => {
-            
-            setTimeout(() => {
 
-            window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
-            resolve();
+const Child = props => {
+  console.log("render Child");
+  return <p>Child: {props.count}</p>;
+};
 
-            console.log( values );
-            }, 500);
-        });
-    }
-    render() {
-        return (
-            <>
-                <h2>Form</h2>
-                <InitializeFromStateForm onSubmit={this.showResults} />
-            </>
-        );
-    }
+export default function App() {
+  console.log("render App");
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+
+  return (
+    <>
+      <button onClick={() => setCount1(count1 + 1)}>countup App count</button>
+      <button onClick={() => setCount2(count2 + 1)}>countup Child count</button>
+      <p>App: {count1}</p>
+      <Child count={count2} />
+    </>
+  );
 }
-
-export default App;
