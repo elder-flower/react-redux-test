@@ -19,13 +19,15 @@ const data = {
 const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet'];
 
 let InitializeFromStateForm = props => {
-  const { handleSubmit, load, pristine, reset, submitting } = props;
+  const { handleSubmit, loadAccount, pristine, reset, submitting } = props;
+    /*
     console.log('load');
     console.log( load );
+    */
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <button type="button" onClick={() => load(data)}>
+        <button type="button" onClick={() => loadAccount(data)}>
           Load Account
         </button>
       </div>
@@ -128,7 +130,7 @@ InitializeFromStateForm = connect(
   state => ({
     initialValues: state.account.data // アカウントレデューサーから初期値をプルする
   }),
-  { load: loadAccount } // アカウント読み込みアクションの作成者をバインド
+  ({ loadAccount }) // アカウント読み込みアクションの作成者をバインド
 )(InitializeFromStateForm)
 
 export default InitializeFromStateForm
