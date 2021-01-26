@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import './index.css';
 
-
-const Child = props => {
+const Child = React.memo(props => {
   console.log("render Child");
   return <p>Child: {props.count}</p>;
-};
+});
 
 export default function App() {
   console.log("render App");
+
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
 
