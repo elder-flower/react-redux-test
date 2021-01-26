@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import './index.css';
 
 const Child = React.memo(props => {
+  let i = 0;
+  while (i < 1000000000) i++;
   console.log("render Child");
   return <p>Child: {props.count}</p>;
 });
