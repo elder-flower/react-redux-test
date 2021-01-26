@@ -1,24 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import './index.css';
 
-const Child = React.memo(props => {
-  let i = 0;
-  while (i < 1000000000) i++;
+const Child = React.memo(() => {
   console.log("render Child");
-  return <p>Child: {props.count}</p>;
+  return <p>Child</p>;
 });
 
 export default function App() {
   console.log("render App");
 
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(100);
+  const timerRef = useRef(null);
+  /*
+    「useRef()」生成時の第1引数は useRef(initialValue);
+  */
+  const timeLeftRef = useRef(timeLeft);
+
+　/*
+    毎回副作用が更新されるのを第二引数に対象プロパティを設定する事によってそのプロパティが変更された時のみ更新する。様に変更する。
+ */
+  useEffect(() => {
+    timeLeftRef.current = timeLeft;
+  }, [timeLeft]);
+
+  const tick = () => {
+    if (timeLeftRef.current === 0) {
+      clearInterval(timerRef.current);
+      return;
+    }
+    setTimeLeft(prevTime => prevTime - 1);
+  };
+
+  const start = () => {
+    timerRef.current = setInterval(tick, 10);
+  };
+
+  const reset = () => {
+    clearInterval(timerRef.current);
+    setTimeLeft(100);
+  };
 
   return (
     <>
-      <button onClick={() => setCount1(count1 + 1)}>countup App count</button>
-      <button onClick={() => setCount2(count2 + 1)}>countup Child count</button>
-      <p>App: {count1}</p>
-      <Child count={count2} />
+      <button onClick={start}>start</button>
+      <button onClick={reset}>reset</button>
+      <p>App: {timeLeft}</p>
+      <Child />
     </>
   );
 }
+
