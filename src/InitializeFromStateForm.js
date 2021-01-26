@@ -5,20 +5,23 @@ import { load as loadAccount } from './reducers/account';
 
 const data = {
   // 「ロード」がクリックされたときに「アカウント」レデューサーにデータを入力するために使用されます
-  firstName: 'Jane',
-  lastName: 'Doe',
+  firstName: 'Bermei',
+  lastName: 'Inazawa',
   age: '42',
   anniversaryDate: '2018-08-22',
-  sex: 'female',
+  sex: 'male',
   employed: true,
   favoriteColor: 'Blue',
-  bio: 'Born to write amazing Redux code.'
+  bio: 'Bermei.inazawa who is weak and cannot read the air.'
+
 }
 
 const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet'];
 
 let InitializeFromStateForm = props => {
   const { handleSubmit, load, pristine, reset, submitting } = props;
+    console.log('load');
+    console.log( load );
   return (
     <form onSubmit={handleSubmit}>
       <div>
