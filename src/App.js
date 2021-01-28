@@ -1,39 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './index.css';
 
 export default function App() {
-  const [items, setItems] = useState([{ name: "きのこ" }]);
+  const [count, setCount] = useState(0);
 
-  const addItem = () => {
-    const newItem = {
-      name: Math.random() > 0.5 ? "きのこ" : "たけのこ"
-    };
-    // 以下のように state を更新してしまうと、React は state が
-    // 更新されていないと判定するのでコンポーネントが再レンダーされない。
-    items.push(newItem);
-    setItems(items);
-  };
-
-  // 引数 index は削除したい要素のインデックス
-  const deleteItem = (index) => {
-    // 以下のように state を更新してしまうと、React は state が
-    // 更新されていないと判定するのでコンポーネントが再レンダーされない。
-    items.splice(index, 1);
-    //console.log( items );
-    setItems(items);
-  };
+  // <p id="effectHook"></p> から取得したテキストをコンソールに出力する副作用。
+  // 今回の場合、App コンポーネントが再レンダーされる度に実行される。
+  // 副作用はコンポーネントのレンダー後に実行されるため、App コンポーネントの
+  // レンダーで生成された <p id="effectHook"></p> も操作できる。
+  // コンポーネントは state が更新される度にレンダーされるため、App コンポーネントは
+  // count が更新される度に再レンダーされる。そのため、ボタンをクリックする度に
+  // App コンポーネントは再レンダーされ、この副作用も実行される。
+  useEffect(() => {
+    console.log(document.getElementById("effectHook").innerText);
+  });
 
   return (
-    <>
-      <button onClick={addItem}>「きのこ」か「たけのこ」を追加</button>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>
-            {item.name}
-            <button onClick={() => deleteItem(index)}>削除</button>
-          </li>
-        ))}
-      </ul>
-    </>
+    <div>
+      <p id="effectHook">You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>click</button>
+    </div>
   );
 }
