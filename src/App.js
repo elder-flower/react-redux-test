@@ -2,40 +2,27 @@ import React, { useState } from "react";
 import './index.css';
 
 export default function App() {
-  console.log("render App");
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
+  // count という state と setCount という count を更新する関数を定義。
+  // 今回、useState に 10 を渡しているため count の初期値は 10 になる。
+  const [count, setCount] = useState(10);
 
-  // 引数の数値を２倍にして返す。
-  // 無駄なループを実行しているため計算にかなりの時間がかかる。
-  const double = count => {
-    let i = 0;
-    while (i < 1000000000) i++;
-    return count * 2;
+  const decrement = () => {
+    // setCount に count - 1 を渡しているので、
+    // decrement が実行される度に、count が 1 減る。
+    setCount(count - 1);
   };
 
-  // App コンポーネントが再レンダリングされたら
-  // このコンポーネントも必ず再レンダリングされる
-  const Counter = React.memo(props => {
-    console.log("render Counter");
-    const doubledCount = double(props.count2);
-
-    return (
-      <p>
-        Counter: {props.count2}, {doubledCount}
-      </p>
-    );
-  });
+  const increment = () => {
+    // setCount に count + 1 を渡しているので、
+    // increment が実行される度に、count が 1 増える。
+    setCount(count + 1);
+  };
 
   return (
     <>
-      <h2>Increment count1</h2>
-      <p>Counter: {count1}</p>
-      <button onClick={() => setCount1(count1 + 1)}>Increment count1</button>
-
-      <h2>Increment count2</h2>
-      <Counter count2={count2} />
-      <button onClick={() => setCount2(count2 + 1)}>Increment count2</button>
+      <p>Count: {count}</p>
+      <button onClick={decrement}>-</button>
+      <button onClick={increment}>+</button>
     </>
   );
 }
