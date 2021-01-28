@@ -2,28 +2,41 @@ import React, { useState } from 'react';
 import './index.css';
 
 export default function App() {
-  const [vote, setVote] = useState({ kinoko: 0, takenoko: 0 });
+  const [items, setItems] = useState([{ name: "きのこ" }]);
 
-  const voteKinoko = () => {
-    // 以下のように state を更新してしまうと、React は state が
-    // 更新されていないと判定するのでコンポーネントが再レンダーされない。
-    vote.kinoko = vote.kinoko + 1;
-    setVote(vote);
+  const addItem = () => {
+    const newItem = {
+      name: Math.random() > 0.5 ? "きのこ" : "たけのこ"
+    };
+    //console.log( ...items );
+    // 現在の items に newItem を追加した配列を setItems に渡す。
+    setItems([...items, newItem]);
   };
 
-  const voteTakenoko = () => {
-    // 以下のように state を更新してしまうと、React は state が
-    // 更新されていないと判定するのでコンポーネントが再レンダーされない。
-    vote.takenoko = vote.takenoko + 1;
-    setVote(vote);
+  // 引数 index は削除したい要素のインデックス
+  const deleteItem = (index) => {
+    //, 現在の items から、引数 index と同じインデックスの要素を
+    // 削除した配列を setItems に渡す。
+      /*
+      console.log( items.filter(($, i) => {
+          console.log( $ );
+          return i !== index;
+      }) );
+      */
+    setItems(items.filter((_, i) => i !== index));
   };
 
   return (
     <>
-      <p>きのこ: {vote.kinoko}</p>
-      <p>たけのこ: {vote.takenoko}</p>
-      <button onClick={voteKinoko}>きのこ</button>
-      <button onClick={voteTakenoko}>たけのこ</button>
+      <button onClick={addItem}>「きのこ」か「たけのこ」を追加</button>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            {item.name}
+            <button onClick={() => deleteItem(index)}>削除</button>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
