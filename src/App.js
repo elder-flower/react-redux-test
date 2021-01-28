@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import './index.css';
 
 export default function App() {
@@ -8,22 +8,19 @@ export default function App() {
     const newItem = {
       name: Math.random() > 0.5 ? "きのこ" : "たけのこ"
     };
-    //console.log( ...items );
-    // 現在の items に newItem を追加した配列を setItems に渡す。
-    setItems([...items, newItem]);
+    // 以下のように state を更新してしまうと、React は state が
+    // 更新されていないと判定するのでコンポーネントが再レンダーされない。
+    items.push(newItem);
+    setItems(items);
   };
 
   // 引数 index は削除したい要素のインデックス
   const deleteItem = (index) => {
-    //, 現在の items から、引数 index と同じインデックスの要素を
-    // 削除した配列を setItems に渡す。
-      /*
-      console.log( items.filter(($, i) => {
-          console.log( $ );
-          return i !== index;
-      }) );
-      */
-    setItems(items.filter((_, i) => i !== index));
+    // 以下のように state を更新してしまうと、React は state が
+    // 更新されていないと判定するのでコンポーネントが再レンダーされない。
+    items.splice(index, 1);
+    //console.log( items );
+    setItems(items);
   };
 
   return (
