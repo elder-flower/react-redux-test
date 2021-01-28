@@ -1,33 +1,35 @@
 import React, { useState } from 'react';
 import './index.css';
 
-
 export default function App() {
-  // count という state と setCount という count を更新する関数を定義。
-  // 今回、useState に 10 を渡しているため count の初期値は 10 になる。
-  const [count, setCount] = useState(10);
+  const [vote, setVote] = useState({ kinoko: 0, takenoko: 0 });
 
-  const decrement = () => {
-    // 引数に渡した関数（(currentCount) => currentCount - 1）の
-    // 引数（currentCount）には現在の count が渡される。
-    // 関数の戻り値が新しい count になるため、
-    // decrement が実行される度に count が 1 減る。
-    setCount(currentCount => currentCount - 1);
+  const voteKinoko = () => {
+    // 現在の vote に、kinoko プロパティ（現在の vote.kinoko + 1）を
+    // マージしたオブジェクトを setVote に渡す。
+    // 例えば、vote が以下の状態であれば
+    // { kinoko: 0, takenoko: 0 }
+    // 以下のように更新される
+    // { kinoko: 1, takenoko: 0 }
+    setVote({ ...vote, kinoko: vote.kinoko + 1 });
   };
 
-  const increment = () => {
-    // 引数に渡した関数（(currentCount) => currentCount + 1）の
-    // 引数（currentCount）には現在の count が渡される。
-    // 関数の戻り値が新しい count になるため、
-    // increment が実行される度に count が 1 増える。
-    setCount(currentCount => currentCount + 1);
+  const voteTakenoko = () => {
+    // 現在の vote に、takenoko プロパティ（現在の vote.takenoko + 1）を
+    // マージしたを setVote に渡す。
+    // 例えば、vote が以下の状態であれば
+    // { kinoko: 0, takenoko: 0 }
+    // 以下のように更新される
+    // { kinoko: 0, takenoko: 1 }
+    setVote({ ...vote, takenoko: vote.takenoko + 1 });
   };
 
   return (
     <>
-      <p>Count: {count}</p>
-      <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
+      <p>きのこ: {vote.kinoko}</p>
+      <p>たけのこ: {vote.takenoko}</p>
+      <button onClick={voteKinoko}>きのこ</button>
+      <button onClick={voteTakenoko}>たけのこ</button>
     </>
   );
 }
