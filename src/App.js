@@ -1,34 +1,24 @@
-import React, { useState } from 'react';
-
-const Counter = ({ decrement, increment, reset }) => {
-  return (
-    <>
-      <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
-      <button onClick={reset}>reset</button>
-    </>
-  );
-};
+import React, { useState, useEffect, useRef } from "react";
 
 export default function App() {
   const [count, setCount] = useState(0);
+  // 初回レンダーかどうかのフラグ
+  const isInitialRender = useRef(true);
 
-  const decrement = () => {
-    setCount(currentCount => currentCount - 1);
-  };
-
-  const increment = () => {
-    setCount(currentCount => currentCount + 1);
-  };
-
-  const reset = () => {
-    setCount(() => 0);
-  };
+  // isInitialRender.current を更新する副作用
+  useEffect(() => {
+    if (isInitialRender.current) {
+      // ref オブジェクトが更新されてもコンポーネントは再レンダーされない。
+      isInitialRender.current = false;
+    }
+  });
 
   return (
     <>
-      <p>Count: {count}</p>
-      <Counter decrement={decrement} increment={increment} reset={reset} />
+      {/* count が更新されるまで、「初回レンダー」が表示される。 */}
+      <p>{isInitialRender.current ? "初回レンダー" : "再レンダー"}</p>
+      <p>count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
     </>
   );
 }
