@@ -1,8 +1,5 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState } from "react";
 import './index.css';
-
-// Context オブジェクト
-const MyContext = createContext();
 
 export default function App() {
   const [count, setCount] = useState(0);
@@ -14,37 +11,28 @@ export default function App() {
   return (
     <div>
       <p>count: {count}</p>
-      {/* Provider。value プロパティの値を共有する。 */}
-      <MyContext.Provider value={value}>
-        <Child />
-      </MyContext.Provider>
+      <Child value={value} />
     </div>
   );
 }
 
-function Child() {
-  return <GrandChild />;
+// Child コンポーネント自体は value を利用しないが、GrandChild コンポーネントに
+// Props として渡すために、value を受け取る必要がある。
+function Child({ value }) {
+  return <GrandChild value={value} />;
 }
 
-function GrandChild() {
-  return <GreatGrandChild />;
+// GrandChild コンポーネント自体は value を利用しないが、GreatGrandChild コンポーネントに
+// Props として渡すために、value を受け取る必要がある。
+function GrandChild({ value }) {
+  return <GreatGrandChild value={value} />;
 }
 
-function GreatGrandChild() {
-  // Provider（<MyContext.Provider value={value}>）から
-  // Context オブジェクトの値（value プロパティの値）を取得する。
-  // そのため、context は
-  // {
-  //   name: 'soarflat',
-  //   handleClick: () => setCount(count => count + 1)
-  // }
-  // になる。
-  const context = useContext(MyContext);
-
+function GreatGrandChild({ value }) {
   return (
     <>
-      <p>{context.name}</p>
-      <button onClick={context.handleClick}>increment</button>
+      <p>{value.name}</p>
+      <button onClick={value.handleClick}>increment</button>
     </>
   );
 }
