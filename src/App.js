@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './index.css';
 
 const Child = React.memo(({ handleClick }) => {
@@ -10,13 +10,11 @@ export default function App() {
   console.log('render App');
 
   const [count, setCount] = useState(0);
-  // 関数はコンポーネントが再レンダーされる度に再生成されるため、
-  // 関数の内容が同じでも、新しい handleClick と前回の handleClick は
-  // 異なるオブジェクトなので、等価ではない。
-  // そのため、コンポーネントが再レンダーされる。
-  const handleClick = () => {
+  // 関数をメモ化すれば、新しい handleClick と前回の handleClick は
+  // 等価になる。そのため、Child コンポーネントは再レンダーされない。
+  const handleClick = useCallback(() => {
     console.log('click');
-  };
+  }, []);
 
   return (
     <>
