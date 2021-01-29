@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import './index.css';
 
-const Child = React.memo(({ handleClick }) => {
+// React.memo でメモ化をしていないコンポーネントのため、メモ化されたコールバック関数を渡しても
+// App コンポーネントがレンダーされる度に再レンダーされる。
+const Child = ({ handleClick }) => {
   console.log('render Child');
   return <button onClick={handleClick}>Child</button>;
-});
+};
 
 export default function App() {
   console.log('render App');
 
   const [count, setCount] = useState(0);
-  // 関数をメモ化すれば、新しい handleClick と前回の handleClick は
-  // 等価になる。そのため、Child コンポーネントは再レンダーされない。
   const handleClick = useCallback(() => {
     console.log('click');
   }, []);
