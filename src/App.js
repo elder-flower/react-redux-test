@@ -1,24 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useReducer } from 'react';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCEREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    case 'RESET':
+      return { count: 0 };
+    default:
+      return state;
+  }
+}
+
+const Counter = ({ dispatch }) => {
+  return (
+    <>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
+      <button onClick={() => dispatch({ type: 'INCEREMENT' })}>+</button>
+      <button onClick={() => dispatch({ type: 'RESET' })}>reset</button>
+    </>
+  );
+};
 
 export default function App() {
-  const [count, setCount] = useState(0);
-  // 初回レンダーかどうかのフラグ
-  const isInitialRender = useRef(true);
-
-  // isInitialRender.current を更新する副作用
-  useEffect(() => {
-    if (isInitialRender.current) {
-      // ref オブジェクトが更新されてもコンポーネントは再レンダーされない。
-      isInitialRender.current = false;
-    }
-  });
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
 
   return (
     <>
-      {/* count が更新されるまで、「初回レンダー」が表示される。 */}
-      <p>{isInitialRender.current ? "初回レンダー" : "再レンダー"}</p>
-      <p>count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>+</button>
+      <p>Count: {state.count}</p>
+      <Counter dispatch={dispatch} />
     </>
   );
 }
