@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './index.css';
 
 const Counter = ({ decrement, increment, reset }) => {
   return (
