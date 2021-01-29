@@ -1,25 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from "react";
 import './index.css';
 
 export default function App() {
-  const [count, setCount] = useState(10);
-  // useRef に　0 を渡しているので、prevCountRef.current の初期値は 0
-  const prevCountRef = useRef(0);
+  const [count, setCount] = useState(0);
+  // 初回レンダーかどうかのフラグ
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   useEffect(() => {
-    // ref オブジェクトが更新されてもコンポーネントは再レンダーされない。
-    prevCountRef.current = count;
-  });
+    if (isInitialRender) {
+      // isInitialRender は state なので、
+      // isInitialRender を更新したら再レンダーされる。
+      setIsInitialRender(false);
+    }
+  }, [isInitialRender]);
 
   return (
     <>
-      <p>
-        現在のcount: {count}, 前回のcount: {prevCountRef.current}
-      </p>
-      <p>前回のcountより{prevCountRef.current > count ? '小さい' : '大きい'}</p>
-      <button onClick={() => setCount(Math.floor(Math.random() * 11))}>
-        update
-      </button>
+      {/* レンダー後に副作用が実行され、isInitialRender が false に
+      更新されるので、「初回レンダー」は表示されない。 */}
+      <p>{isInitialRender ? "初回レンダー" : "再レンダー"}</p>
+      <p>count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
     </>
   );
 }
