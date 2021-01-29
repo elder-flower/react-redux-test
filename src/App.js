@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import './index.css';
 
 export default function App() {
@@ -14,20 +14,18 @@ export default function App() {
     return count * 2;
   };
 
-  // レンダー結果（計算結果）をメモ化する
-  // 第２引数に count2 を渡しているため、count2 が更新された時だけ再レンダーされる。
-  // count1 が更新され、コンポーネントが再レンダーされた時はメモ化したレンダー結果を
-  // 利用するため再レンダーされない。
-  const Counter = useMemo(() => {
+  // App コンポーネントが再レンダーされたら
+  // このコンポーネントも必ず再レンダーされる
+  const Counter = React.memo((props) => {
     console.log("render Counter");
-    const doubledCount = double(count2);
+    const doubledCount = double(props.count2);
 
     return (
       <p>
-        Counter: {count2}, {doubledCount}
+        Counter: {props.count2}, {doubledCount}
       </p>
     );
-  }, [count2]);
+  });
 
   return (
     <>
@@ -36,7 +34,7 @@ export default function App() {
       <button onClick={() => setCount1(count1 + 1)}>Increment count1</button>
 
       <h2>Increment count2</h2>
-      {Counter}
+      <Counter count2={count2} />
       <button onClick={() => setCount2(count2 + 1)}>Increment count2</button>
     </>
   );
