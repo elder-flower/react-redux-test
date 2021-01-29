@@ -13,7 +13,8 @@ function reducer(state, action) {
   }
 }
 
-const Counter = ({ dispatch }) => {
+const Counter = React.memo(({ dispatch }) => {
+  console.log('render Counter');
   return (
     <>
       <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
@@ -21,7 +22,7 @@ const Counter = ({ dispatch }) => {
       <button onClick={() => dispatch({ type: 'RESET' })}>reset</button>
     </>
   );
-};
+});
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, { count: 0 });
