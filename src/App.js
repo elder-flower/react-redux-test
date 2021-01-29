@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import './index.css';
 
 const Counter = React.memo(({ decrement, increment, reset }) => {
   console.log('render Counter');
