@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import './index.css';
 
-// props.count が更新されない限り、再レンダーされない。
+// レンダーコストが高いコンポーネント
 const Child = React.memo(({ count }) => {
-  console.log("render Child");
+  let i = 0;
+  // 無駄なループを実行しているため処理にかなりの時間がかかる。
+  while (i < 1000000000) i++;
+  console.log('render Child');
   return <p>Child: {count}</p>;
 });
 
 export default function App() {
-  console.log("render App");
+  console.log('render App');
+
   const [count1, setCount1] = useState(0);
   const [count2, setCount2] = useState(0);
 
