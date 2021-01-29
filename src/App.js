@@ -1,14 +1,15 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import './index.css';
 
-const CountContext = createContext();
+const CountStateContext = createContext();
+const CountDispatchContext = createContext();
 
 function countReducer(state, action) {
   switch (action.type) {
     case 'INCREMENT': {
       return { count: state.count + 1 };
     }
-    case 'DECREMENET': {
+    case 'DECREMENT': {
       return { count: state.count - 1 };
     }
     default: {
@@ -19,36 +20,38 @@ function countReducer(state, action) {
 
 function CountProvider({ children }) {
   const [state, dispatch] = useReducer(countReducer, { count: 0 });
-  const value = {
-    state,
-    dispatch
-  };
 
+  // CountStateContext.Provider の value が更新したら、
+  // CountStateContext の値を取得している全ての Consumer が再レンダーされる。
+  // CountDispatchContext.Provider の value が更新したら、
+  // CountDispatchContext の値を取得している全ての Consumer が再レンダーされる。
   return (
-    // value（state か dispatch のどちらか）が更新したら、
-    // CountContext.Provider 内のすべての Consumer が再レンダーされる。
-    <CountContext.Provider value={value}>{children}</CountContext.Provider>
+    <CountStateContext.Provider value={state}>
+      <CountDispatchContext.Provider value={dispatch}>
+        {children}
+      </CountDispatchContext.Provider>
+    </CountStateContext.Provider>
   );
 }
 
 function Count() {
   console.log('render Count');
-  // CountContext からは state のみを取得しているが、
-  // dispatch が更新されても再レンダーされる
-  const { state } = useContext(CountContext);
+  // state と dispatch を保持する Context オブジェクトが異なるので、
+  // dispatch が更新されてもこのコンポーネントは再レンダーされない。
+  const state = useContext(CountStateContext);
 
   return <h1>{state.count}</h1>;
 }
 
 function Counter() {
   console.log('render Counter');
-  // CountContext からは dispatch のみを取得しているが、
-  // state が更新されても再レンダーされる
-  const { dispatch } = useContext(CountContext);
+  // state と dispatch を保持する Context オブジェクトが異なるので、
+  // state が更新されてもこのコンポーネントは再レンダーされない。
+  const dispatch = useContext(CountDispatchContext);
 
   return (
     <>
-      <button onClick={() => dispatch({ type: 'DECREMENET' })}>-</button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
       <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
     </>
   );
