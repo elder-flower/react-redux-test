@@ -1,35 +1,50 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useContext, createContext } from "react";
+import './index.css';
 
-const Counter = React.memo(({ decrement, increment, reset }) => {
-  console.log('render Counter');
-  return (
-    <>
-      <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
-      <button onClick={reset}>reset</button>
-    </>
-  );
-});
+// Context オブジェクト
+const MyContext = createContext();
 
 export default function App() {
   const [count, setCount] = useState(0);
+  const value = {
+    name: "soarflat",
+    handleClick: () => setCount((count) => count + 1)
+  };
 
-  const decrement = useCallback(() => {
-    setCount(currentCount => currentCount - 1);
-  }, [setCount]);
+  return (
+    <div>
+      <p>count: {count}</p>
+      {/* Provider。value プロパティの値を共有する。 */}
+      <MyContext.Provider value={value}>
+        <Child />
+      </MyContext.Provider>
+    </div>
+  );
+}
 
-  const increment = useCallback(() => {
-    setCount(currentCount => currentCount + 1);
-  }, [setCount]);
+function Child() {
+  return <GrandChild />;
+}
 
-  const reset = useCallback(() => {
-    setCount(() => 0);
-  }, [setCount]);
+function GrandChild() {
+  return <GreatGrandChild />;
+}
+
+function GreatGrandChild() {
+  // Provider（<MyContext.Provider value={value}>）から
+  // Context オブジェクトの値（value プロパティの値）を取得する。
+  // そのため、context は
+  // {
+  //   name: 'soarflat',
+  //   handleClick: () => setCount(count => count + 1)
+  // }
+  // になる。
+  const context = useContext(MyContext);
 
   return (
     <>
-      <p>Count: {count}</p>
-      <Counter decrement={decrement} increment={increment} reset={reset} />
+      <p>{context.name}</p>
+      <button onClick={context.handleClick}>increment</button>
     </>
   );
 }
