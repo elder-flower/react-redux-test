@@ -1,36 +1,35 @@
-import React, { useReducer } from 'react';
+import React, { useState, useCallback } from 'react';
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'INCEREMENT':
-      return { count: state.count + 1 };
-    case 'DECREMENT':
-      return { count: state.count - 1 };
-    case 'RESET':
-      return { count: 0 };
-    default:
-      return state;
-  }
-}
-
-const Counter = React.memo(({ dispatch }) => {
+const Counter = React.memo(({ decrement, increment, reset }) => {
   console.log('render Counter');
   return (
     <>
-      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
-      <button onClick={() => dispatch({ type: 'INCEREMENT' })}>+</button>
-      <button onClick={() => dispatch({ type: 'RESET' })}>reset</button>
+      <button onClick={decrement}>-</button>
+      <button onClick={increment}>+</button>
+      <button onClick={reset}>reset</button>
     </>
   );
 });
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
+  const [count, setCount] = useState(0);
+
+  const decrement = useCallback(() => {
+    setCount(currentCount => currentCount - 1);
+  }, [setCount]);
+
+  const increment = useCallback(() => {
+    setCount(currentCount => currentCount + 1);
+  }, [setCount]);
+
+  const reset = useCallback(() => {
+    setCount(() => 0);
+  }, [setCount]);
 
   return (
     <>
-      <p>Count: {state.count}</p>
-      <Counter dispatch={dispatch} />
+      <p>Count: {count}</p>
+      <Counter decrement={decrement} increment={increment} reset={reset} />
     </>
   );
 }
