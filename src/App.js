@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import './index.css';
 
-// App コンポーネントが再レンダーする度に再レンダーされる
-function Child({ count }) {
+// props.count が更新されない限り、再レンダーされない。
+const Child = React.memo(({ count }) => {
   console.log("render Child");
   return <p>Child: {count}</p>;
-}
+});
 
 export default function App() {
   console.log("render App");
