@@ -1,41 +1,37 @@
-import React, { useState } from "react";
+import React, { useReducer } from 'react';
 import './index.css';
 
+// 現在の state と action を受け取り、action に応じて更新した state を返す関数
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCEREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    case 'RESET':
+      return { count: 0 };
+    default:
+      return state;
+  }
+}
+
 export default function App() {
-  console.log("render App");
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
-
-  // 引数の数値を２倍にして返す。
-  // 無駄なループを実行しているため計算にかなりの時間がかかる。
-  const double = (count) => {
-    let i = 0;
-    while (i < 1000000000) i++;
-    return count * 2;
-  };
-
-  // App コンポーネントが再レンダーされたら
-  // このコンポーネントも必ず再レンダーされる
-  const Counter = React.memo((props) => {
-    console.log("render Counter");
-    const doubledCount = double(props.count2);
-
-    return (
-      <p>
-        Counter: {props.count2}, {doubledCount}
-      </p>
-    );
-  });
+  // useReducer の第２引数に { count: 0 } を渡しているので、
+  // state の初期値は { count: 0 }
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
 
   return (
     <>
-      <h2>Increment count1</h2>
-      <p>Counter: {count1}</p>
-      <button onClick={() => setCount1(count1 + 1)}>Increment count1</button>
+      <p>count: {state.count}</p>
 
-      <h2>Increment count2</h2>
-      <Counter count2={count2} />
-      <button onClick={() => setCount2(count2 + 1)}>Increment count2</button>
+      {/* { type: 'DECREMENT' } という action を送信する */}
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
+
+      {/* { type: 'INCEREMENT' } という action を送信する */}
+      <button onClick={() => dispatch({ type: 'INCEREMENT' })}>+</button>
+
+      {/* { type: 'RESET' } という action を送信する */}
+      <button onClick={() => dispatch({ type: 'RESET' })}>reset</button>
     </>
   );
 }
