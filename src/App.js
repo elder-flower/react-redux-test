@@ -1,62 +1,61 @@
 import React, { useState, useEffect } from "react";
-// HTTP 通信をするモジュール（外部 API などと通信する時に利用する）
-import axios from "axios";
 import './index.css';
 
-export default function App() {
-  // 外部 API から取得したデータ
-  const [items, setItems] = useState([]);
-  // input（入力欄）に入力した値
-  const [inputValue, setInputValue] = useState("react");
-  // 外部 API にリクエスト時に付与するクエリパラメータ
-  const [query, setQuery] = useState(inputValue);
-  // ローディング状態
-  const [isLoading, setIsLoading] = useState(false);
+const LIMIT = 60;
 
-  // 外部 API からデータを取得し、state を更新する副作用。
-  // 第２引数に [query] を指定しているので、query が更新されたら実行される。
+// カウントダウンをする（60 から 0 を表示する）コンポーネント。
+function Timer() {
+  // カウント
+  const [timeLeft, setTimeLeft] = useState(LIMIT);
+
+  // timeLeft をリセット（60に戻す）。
+  const reset = () => {
+    setTimeLeft(LIMIT);
+  };
+
+  // timeLeft を更新する。
+  const tick = () => {
+    console.log("tick");
+    setTimeLeft((prevTime) => (prevTime === 0 ? LIMIT : prevTime - 1));
+  };
+
+  // setInterval で１秒毎に tick を実行するタイマーを作成する副作用。
+  // 第２引数に [] を渡しているので、この副作用はレンダー後の１度しか実行されない。
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    console.log("create Timer");
+    const timerId = setInterval(tick, 1000);
 
-      const result = await axios(
-        `https://hn.algolia.com/api/v1/search?query=${query}`
-      );
-
-      setItems(result.data.hits);
-      setIsLoading(false);
+    // クリーンアップ関数はコンポーネントがアンマウント、もしくは副作用が再度実行された時に呼ばれる。
+    // ↑で作成したタイマー（timerId）は削除しない限り、コンポーネントがアンマウントされた後も延々と実行され続けてしまう。
+    // そのため、コンポーネントがアンマウント、もしくは副作用が再度実行された時に clearInterval でタイマーを削除する。
+    return () => {
+      console.log("cleanup Timer");
+      clearInterval(timerId);
     };
-
-    fetchData();
-  }, [query]);
+  }, []);
 
   return (
-    <>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setQuery(inputValue);
-        }}
-      >
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-        />
-        <button type="submit">検索</button>
-      </form>
-
-      {isLoading ? (
-        <p>Loading</p>
-      ) : (
-        <ul>
-          {items.map((item) => (
-            <li key={item.objectID}>
-              <a href={item.url}>{item.title}</a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <div>
+      <p>time: {timeLeft}</p>
+      <button onClick={reset}>reset</button>
+    </div>
   );
 }
+
+function App() {
+  // コンポーネントをレンダーするかどうかのフラグ
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <div>
+      <button onClick={() => setVisible(!visible)}>toggle Timer</button>
+
+      {/* visible が true であれば Timer コンポーネントをレンダーする。
+      false にすれば何もレンダーされない（Timer コンポーネントがアンマウントされる）ため、
+      Timer コンポーネントの console.log('cleanup Timer'); などが実行される。 */}
+      {visible ? <Timer /> : ""}
+    </div>
+  );
+}
+
+export default App;
