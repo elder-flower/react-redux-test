@@ -6,6 +6,7 @@ export default function App() {
   // 初回レンダーかどうかのフラグ
   const [isInitialRender, setIsInitialRender] = useState(true);
 
+  console.log( 'App Render' );
   useEffect(() => {
     if (isInitialRender) {
       // isInitialRender は state なので、
