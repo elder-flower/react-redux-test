@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useMemo } from 'react';
 
 const CountContext = createContext();
 
@@ -46,22 +46,18 @@ function Counter() {
   const { dispatch } = useContext(CountContext);
 
   // CountContext.Provider の value の更新による Counter コンポーネントの
-  // 再レンダーは避けられない。そのため、このコンポーネントは CountContext から値を
-  // 取得するだけにして、メモ化したコンポーネントに取得した dispatch を渡すようにする。
-  return <DispatchButton dispatch={dispatch} />;
+  // 再レンダーは避けられない。そのため dispatch を利用するレンダリング結果（計算結果）を
+  // メモ化し、不要な再レンダーを防ぐ。
+  return useMemo(() => {
+    console.log('rerender Counter');
+    return (
+      <>
+        <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
+        <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
+      </>
+    );
+  }, [dispatch]);
 }
-
-// dispatch を Props として受け取るコンポーネントをメモ化し、不要な再レンダーを防ぐ
-const DispatchButton = React.memo(({ dispatch }) => {
-  console.log('render DispatchButton');
-
-  return (
-    <>
-      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
-      <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
-    </>
-  );
-});
 
 export default function App() {
   return (
