@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import './index.css';
 
-const CountStateContext = createContext();
-const CountDispatchContext = createContext();
+const CountContext = createContext();
 
 function countReducer(state, action) {
   switch (action.type) {
@@ -20,34 +18,42 @@ function countReducer(state, action) {
 
 function CountProvider({ children }) {
   const [state, dispatch] = useReducer(countReducer, { count: 0 });
+  const value = {
+    state,
+    dispatch
+  };
 
-  // CountStateContext.Provider の value が更新したら、
-  // CountStateContext の値を取得している全ての Consumer が再レンダーされる。
-  // CountDispatchContext.Provider の value が更新したら、
-  // CountDispatchContext の値を取得している全ての Consumer が再レンダーされる。
   return (
-    <CountStateContext.Provider value={state}>
-      <CountDispatchContext.Provider value={dispatch}>
-        {children}
-      </CountDispatchContext.Provider>
-    </CountStateContext.Provider>
+    // value（state か dispatch のどちらか）が更新したら、
+    // CountContext.Provider 内のすべての Consumer が再レンダーされる。
+    <CountContext.Provider value={value}>{children}</CountContext.Provider>
   );
 }
 
 function Count() {
   console.log('render Count');
-  // state と dispatch を保持する Context オブジェクトが異なるので、
-  // dispatch が更新されてもこのコンポーネントは再レンダーされない。
-  const state = useContext(CountStateContext);
+  // CountContext からは state のみを取得しているが、
+  // dispatch が更新されても再レンダーされる
+  const { state } = useContext(CountContext);
 
   return <h1>{state.count}</h1>;
 }
 
 function Counter() {
   console.log('render Counter');
-  // state と dispatch を保持する Context オブジェクトが異なるので、
-  // state が更新されてもこのコンポーネントは再レンダーされない。
-  const dispatch = useContext(CountDispatchContext);
+  // CountContext からは dispatch のみを取得しているが、
+  // state が更新されても再レンダーされる
+  const { dispatch } = useContext(CountContext);
+
+  // CountContext.Provider の value の更新による Counter コンポーネントの
+  // 再レンダーは避けられない。そのため、このコンポーネントは CountContext から値を
+  // 取得するだけにして、メモ化したコンポーネントに取得した dispatch を渡すようにする。
+  return <DispatchButton dispatch={dispatch} />;
+}
+
+// dispatch を Props として受け取るコンポーネントをメモ化し、不要な再レンダーを防ぐ
+const DispatchButton = React.memo(({ dispatch }) => {
+  console.log('render DispatchButton');
 
   return (
     <>
@@ -55,7 +61,7 @@ function Counter() {
       <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
     </>
   );
-}
+});
 
 export default function App() {
   return (
