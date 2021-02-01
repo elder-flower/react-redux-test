@@ -20,14 +20,17 @@ export default function App() {
 }
 
 function Child({ children }) {
+  console.log('Child');
   return <>{children}</>;
 }
 
 function GrandChild({ children }) {
+  console.log('GrandChild');
   return <>{children}</>;
 }
 
 function GreatGrandChild({ value }) {
+  console.log('GreatGrandChild');
   return (
     <>
       <p>{value.name}</p>
