@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 
-function App() {
-  // state
-  const [count, setCount] = useState(0);
+/ カウンターの state と state 更新ロジックを持つカスタムフック
+/ カスタムフックの名前は必ず use から始まる必要がある。
+function useCounter(initialCount) {
+  const [count, setCount] = useState(initialCount);
 
-  // state 更新ロジック
   const increment = () => {
     setCount(count + 1);
   };
 
-  // state 更新ロジック
   const decrement = () => {
     setCount(count - 1);
   };
+
+  return { count, increment, decrement };
+}
+
+function App() {
+  const { count, increment, decrement } = useCounter(0);
 
   return (
     <div>
