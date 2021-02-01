@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-/ カウンターの state と state 更新ロジックを持つカスタムフック
-/ カスタムフックの名前は必ず use から始まる必要がある。
+// カウンターの state と state 更新ロジックを持つカスタムフック
+// カスタムフックの名前は必ず use から始まる必要がある。
 function useCounter(initialCount) {
   const [count, setCount] = useState(initialCount);
 
