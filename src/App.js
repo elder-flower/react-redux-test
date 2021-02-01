@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-// カウンターの state と state 更新ロジックを持つカスタムフック
-// カスタムフックの名前は必ず use から始まる必要がある。
 function useCounter(initialCount) {
+  console.log('useCounter Render');
   const [count, setCount] = useState(initialCount);
 
   const increment = () => {
@@ -16,14 +15,35 @@ function useCounter(initialCount) {
   return { count, increment, decrement };
 }
 
-function App() {
-  const { count, increment, decrement } = useCounter(0);
+function Counter1() {
+  console.log('Counter1 Render');
+  const { count, increment } = useCounter(0);
 
   return (
-    <div>
+    <>
+      <p>count: {count}</p>
+      <button onClick={increment}>+</button>
+    </>
+  );
+}
+
+function Counter2() {
+  console.log('Counter2 Render');
+  const { count, decrement } = useCounter(10);
+
+  return (
+    <>
       <p>count: {count}</p>
       <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <Counter1 />
+      <Counter2 />
     </div>
   );
 }
